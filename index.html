@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EdilGraphic — дизайн и моушн</title>
+<meta name="description" content="Графический и моушн-дизайнер в Бишкеке: дизайн соцсетей, айдентика, дизайн под печать, анимация и монтаж.">
+<style>
+/* VOICE  — уверенная витрина: работы крупно, текст короткий и вторичный.
+   IDEA   — лента Instagram и бесшовная карусель: каждый кейс листается как пост.
+   PICTURE— в первом экране две бесконечные ленты реальных постов навстречу друг другу.
+   COLOUR and TYPE — фирменный чёрный с серыми шевронами из PDF, белый, кобальт для действий; Helvetica.
+   LAYOUT — шапка-пилюля, герой, клиенты, оглавление кейсов, кейсы (заголовок → карусель → три колонки текста), услуги, шаги, контакт. */
+:root{
+  color-scheme:dark;
+  --bg:#000;--s1:#0f0f10;--s2:#18181a;--line:#262628;--ink:#fff;--ink2:#c7c7cc;--mute:#8e8e93;--chev:#1a1a1b;
+  --acc:#3a5bff;--acc-h:#5873ff;
+  --f:"Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;
+  /* шкала: 96 / 56 / 32 / 20 / 17 / 14 */
+  --t1:clamp(44px,8vw,104px);--t2:clamp(34px,5vw,60px);--t3:clamp(24px,2.6vw,34px);--t4:20px;--t5:17px;--t6:14px;
+  --r:20px;
+}
+*{box-sizing:border-box;min-width:0}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--t5)/1.55 var(--f);-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--acc-h);outline-offset:3px;border-radius:10px}
+h1,h2,h3{margin:0;font-weight:700;text-wrap:balance}
+h1{font-size:var(--t1);line-height:.95;letter-spacing:-.045em}
+h2{font-size:var(--t2);line-height:1;letter-spacing:-.035em}
+h3{font-size:var(--t3);line-height:1.1;letter-spacing:-.025em}
+p{margin:0}
+.wrap{max-width:1280px;margin:0 auto;padding:0 max(4vw,16px)}
+.muted{color:var(--mute)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border-radius:999px;font-weight:500;font-size:16px;white-space:nowrap;border:1px solid transparent;transition:background .2s,border-color .2s}
+.btn-pri{background:var(--acc);color:#fff}.btn-pri:hover{background:var(--acc-h)}
+.btn-ghost{border-color:#3a3a3c;background:transparent;cursor:pointer}.btn-ghost:hover{border-color:#fff}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* шапка */
+header{position:fixed;top:14px;left:0;right:0;z-index:30;pointer-events:none}
+.bar{pointer-events:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;height:60px;padding:0 8px 0 20px;border-radius:999px;background:rgba(20,20,22,.72);backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(255,255,255,.08)}
+.logo{display:flex;align-items:center;padding:6px 0}
+.logo img{height:22px;width:auto;translate:0 2px}
+nav{display:flex;align-items:center;gap:2px}
+nav a:not(.btn){padding:10px 14px;border-radius:999px;color:var(--ink2);font-size:15px}
+nav a:not(.btn):hover{background:rgba(255,255,255,.08);color:#fff}
+nav .btn{min-height:44px;padding:0 20px;font-size:15px;margin-left:6px}
+@media(max-width:760px){nav a:not(.btn){display:none}}
+
+/* герой */
+.hero{position:relative;overflow:hidden;padding-top:clamp(140px,18vw,200px)}
+.chev{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.burst{position:absolute;top:0;height:100%;aspect-ratio:501/1067;background:var(--chev);-webkit-mask:url(img/burst.png) no-repeat center/100% 100%;mask:url(img/burst.png) no-repeat center/100% 100%}
+.hero .burst{left:0;height:min(100%,1100px)}
+.hero .wrap{position:relative}
+.hero h1{max-width:11ch}
+.hero-row{display:grid;gap:32px;justify-items:start;margin-top:clamp(28px,3vw,40px)}
+.lead{max-width:44ch;font-size:var(--t4);line-height:1.45;color:var(--ink2)}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.belts{position:relative;margin:clamp(56px,7vw,96px) 0 0 -5%;width:110%;display:grid;gap:14px;padding-bottom:clamp(56px,7vw,96px);transform:rotate(-3deg)}
+.belt{overflow:hidden}
+.track{display:flex;gap:14px;width:max-content;animation:run 70s linear infinite}
+.belt.rev .track{animation-direction:reverse;animation-duration:84s}
+.track img{height:clamp(200px,24vw,310px);aspect-ratio:4/5;width:auto;object-fit:cover;border-radius:16px}
+@keyframes run{to{transform:translateX(-50%)}}
+
+/* анимация заголовка */
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}
+.hero h1 .w>span{display:inline-block}
+
+/* клиенты */
+.clients{border-block:1px solid var(--line);padding:26px 0 30px}
+.clients p{font-size:var(--t6);color:var(--mute);margin-bottom:16px}
+.clients .cl-note{margin:16px 0 0;color:#636366;max-width:72ch}
+.cl-belt{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.cl-track{display:flex;width:max-content;animation:run 70s linear infinite}
+.cl-belt+.cl-belt{margin-top:22px}
+.cl-belt.rev .cl-track{animation-direction:reverse;animation-duration:80s}
+.cl-track img{flex:none;margin:0 clamp(24px,3vw,44px);opacity:.62;transition:opacity .2s;object-fit:contain}
+.cl-track img:hover{opacity:1}
+.cl-track{align-items:center}
+.cl-track span{flex:none;padding:0 clamp(18px,2.4vw,32px);font-size:clamp(17px,1.7vw,21px);font-weight:700;letter-spacing:-.02em;color:#8e8e93;white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.cl-track{animation:none;flex-wrap:wrap;width:auto;padding:0 max(4vw,16px);row-gap:10px}.cl-track span{padding:0 24px 0 0}.cl-track [aria-hidden]{display:none}}
+
+/* секции */
+.block{padding:clamp(80px,10vw,140px) 0}
+.head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 48px;align-items:end;margin-bottom:clamp(36px,4vw,56px)}
+.head p{color:var(--mute);font-size:var(--t5);max-width:46ch;justify-self:end}
+@media(max-width:560px){.hero .cta{display:grid;grid-template-columns:1fr 1fr;width:100%}.hero .cta .btn{padding:0 14px;font-size:15px}}
+@media(max-width:760px){.head{grid-template-columns:minmax(0,1fr)}.head p{justify-self:start}}
+
+/* обо мне */
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,80px);align-items:start}
+.photo{position:relative;aspect-ratio:4/5;border-radius:28px;overflow:hidden;background:radial-gradient(70% 55% at 50% 42%,#1c1c1e 0%,#0a0a0a 55%,#000 100%);border:1px solid var(--line)}
+.me{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center bottom}
+.about-text{display:grid;gap:clamp(28px,3vw,40px)}
+.about-text h2 span{color:var(--mute)}
+.about-text .lead{max-width:52ch}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.facts div{background:var(--s1);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.facts b{display:block;font-size:var(--t3);letter-spacing:-.03em;line-height:1}
+.facts span{display:block;margin-top:8px;color:var(--mute);font-size:var(--t6);line-height:1.4}
+.tools h4,.clients-list h4{margin:0 0 12px;font-size:var(--t6);font-weight:500;color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{padding:9px 16px;border-radius:999px;background:var(--s2);font-size:15px;color:#e5e5ea}
+@media(max-width:860px){.about{grid-template-columns:minmax(0,1fr)}.photo{max-width:440px}}
+@media(max-width:520px){.facts{grid-template-columns:minmax(0,1fr)}}
+
+/* работы: вкладки и сетки */
+.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--s2);margin-bottom:clamp(28px,3vw,40px);max-width:100%;overflow-x:auto}
+.tabs button{min-height:44px;padding:0 22px;border-radius:999px;border:0;background:transparent;color:var(--ink2);font-size:15px;font-weight:500;cursor:pointer;white-space:nowrap}
+.tabs button:hover{color:#fff}
+.tabs button[aria-selected=true]{background:#fff;color:#000}
+.tabs i{font-style:normal;margin-left:6px;color:var(--mute);font-size:13px}
+.tabs button[aria-selected=true] i{color:#666}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.grid button{position:relative;padding:0;border:0;border-radius:16px;overflow:hidden;background:var(--s2);cursor:zoom-in;aspect-ratio:4/5}
+.grid img,.grid video{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.grid button:hover img{transform:scale(1.03)}
+.grid .lbl{position:absolute;left:10px;bottom:10px;padding:5px 10px;border-radius:999px;background:rgba(0,0,0,.66);backdrop-filter:blur(8px);font-size:13px;color:#fff;opacity:0;transition:opacity .2s}
+.grid button:hover .lbl,.grid button:focus-visible .lbl{opacity:1}
+.grid .cpt{position:absolute;top:10px;right:10px;padding:4px 10px;border-radius:999px;background:rgba(58,91,255,.9);font-size:12px;color:#fff}
+.grid.vid button{cursor:pointer;aspect-ratio:9/16}
+.grid.vid button:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
+.grid.vid button:first-child .lbl{opacity:1;font-size:14px;padding:7px 14px;left:16px;bottom:16px}
+.grid.vid .play{position:absolute;inset:12px 12px auto auto;width:40px;height:40px;border-radius:50%;background:rgba(0,0,0,.6);display:grid;place-items:center}
+.grid.vid .play svg{width:16px;height:16px}
+.edits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.edits figure{margin:0;display:flex;flex-direction:column;background:var(--s1);border:1px solid var(--line);border-radius:24px;padding:12px}
+.edits video{width:100%;aspect-ratio:9/16;background:#000;display:block;border-radius:16px;object-fit:cover}
+.edits figcaption{display:grid;gap:8px;padding:18px 10px 10px}
+.edits figcaption b{font-size:var(--t4);letter-spacing:-.02em;line-height:1.2}
+.edits figcaption span{color:var(--mute);font-size:15px}
+@media(max-width:900px){.edits{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.edits{grid-template-columns:minmax(0,1fr)}}
+.more{display:flex;justify-content:center;margin-top:28px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.grid.vid button:first-child{grid-row:auto;aspect-ratio:9/16}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.grid button{border-radius:12px}.edits{grid-template-columns:minmax(0,1fr)}}
+
+/* направления */
+.dirs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dir{background:var(--s1);border:1px solid var(--line);border-radius:28px;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;gap:14px}
+.dir h3{font-size:var(--t3)}
+.dir p{color:var(--ink2);max-width:44ch}
+.dir .chips{list-style:none;margin:0;padding:6px 0 0}
+.dir-link{margin-top:auto;padding-top:22px;display:inline-flex;align-items:center;gap:6px;align-self:flex-start;font-weight:500;color:#fff;min-height:44px}
+.dir-link svg{width:18px;height:18px;transition:translate .2s}
+.dir-link:hover svg{translate:4px 0}
+.dir-link:hover{color:var(--acc-h)}
+.dir .chips li{padding:8px 14px;border-radius:999px;background:var(--s2);font-size:14px;color:#e5e5ea}
+@media(max-width:800px){.dirs{grid-template-columns:minmax(0,1fr)}}
+
+/* шаги */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;counter-reset:s}
+.steps li{position:relative;padding:28px 24px 26px;border-radius:var(--r);background:var(--s1);border:1px solid var(--line)}
+.steps li::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#fff;color:#000;font-weight:700;font-size:16px;margin-bottom:28px}
+.steps h3{font-size:var(--t4);letter-spacing:-.02em;margin-bottom:8px}
+.steps p{color:var(--mute);font-size:16px}
+@media(max-width:900px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.steps{grid-template-columns:minmax(0,1fr)}}
+
+/* контакт */
+.contact{position:relative;overflow:hidden;margin:0 max(4vw,16px) clamp(16px,2vw,24px);border-radius:32px;background:var(--acc)}
+.contact .burst{right:0;background:rgba(255,255,255,.1);transform:scaleX(-1)}
+.contact .in{position:relative;padding:clamp(56px,8vw,112px) clamp(24px,5vw,72px);display:grid;gap:28px;max-width:900px}
+.contact h2{font-size:clamp(36px,6vw,76px);line-height:.98}
+.contact p{font-size:var(--t4);max-width:40ch;color:rgba(255,255,255,.86)}
+.contact .btn{background:#fff;color:#000}
+.contact .cta{align-items:center;gap:20px}
+.handle{font-size:var(--t4);color:rgba(255,255,255,.86)}
+.contact .btn:hover{background:#e8e8ed}
+footer{padding:24px 0 32px;color:var(--mute);font-size:var(--t6)}
+footer .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 28px}
+footer a:hover{color:#fff}
+.flogo{height:18px;width:auto;opacity:.7}
+
+/* просмотр */
+.arrow{width:48px;height:48px;border-radius:50%;border:1px solid #3a3a3c;background:transparent;display:grid;place-items:center;cursor:pointer;color:#fff;padding:0;transition:background .2s,border-color .2s}
+.arrow:hover{background:#fff;color:#000;border-color:#fff}
+.arrow svg{width:20px;height:20px}
+
+dialog{border:0;padding:0;background:transparent;width:100vw;height:100vh;max-width:100vw;max-height:100vh}
+dialog::backdrop{background:rgba(0,0,0,.94);backdrop-filter:blur(6px)}
+.lb{position:relative;height:100%;display:grid;place-items:center;padding:72px 80px}
+.lb img,.lb video{max-height:calc(100vh - 144px);max-width:100%;width:auto;border-radius:16px}
+.lb .arrow{position:absolute;background:#18181a}
+.lb .x{top:16px;right:16px}.lb .pv{left:16px;top:50%;translate:0 -50%}.lb .nx{right:16px;top:50%;translate:0 -50%}
+.lb .cnt{position:absolute;top:28px;left:24px;font-size:var(--t6);color:var(--ink2)}
+@media(max-width:600px){.lb{padding:72px 8px 84px}.lb .pv,.lb .nx{top:auto;bottom:16px;translate:none}.lb .pv{left:calc(50% - 56px)}.lb .nx{right:calc(50% - 56px)}}
+
+@media(prefers-reduced-motion:reduce){.track{animation:none}.belt{overflow-x:auto}html,.reel{scroll-behavior:auto}.reel button:hover{transform:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0l2.2 6.1L20.5 3.5l-2.6 6.3L24 12l-6.1 2.2 2.6 6.3-6.3-2.6L12 24l-2.2-6.1-6.3 2.6 2.6-6.3L0 12l6.1-2.2L3.5 3.5l6.3 2.6z"/></symbol>
+    <symbol id="left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13l11-6.5z"/></symbol>
+    <symbol id="close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="tg" viewBox="0 0 24 24"><path fill="currentColor" d="M21.5 3.6L2.9 10.8c-1.3.5-1.2 1.3-.2 1.6l4.8 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.7c.3-1.3-.5-1.9-1.5-1.5zM9.6 14.2l8.7-7.4c.4-.3 0-.5-.5-.2l-10.6 6.7"/></symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap">
+    <div class="bar">
+      <a class="logo" href="#top"><img src="img/logo.png" alt="EdilGraphic, на главную" width="128" height="22"></a>
+      <nav aria-label="Разделы">
+        <a href="#work">Работы</a>
+        <a href="#services">Услуги</a>
+        <a href="#about">Обо мне</a>
+        <a href="#process">Как работаю</a>
+        <a class="btn btn-pri tg" href="https://t.me/">Написать</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="chev" aria-hidden="true"><i class="burst"></i></div>
+  <div class="wrap">
+    <h1>Дизайн и моушн для вашего бизнеса</h1>
+    <div class="hero-row">
+      <p class="lead">Упаковываю соцсети, разрабатываю айдентику и дизайн для печати, а потом оживляю всё это анимацией. Работал с банками, авиакомпанией, девелоперами и брендами Кыргызстана.</p>
+      <div class="cta">
+        <a class="btn btn-pri tg" href="https://t.me/"><svg aria-hidden="true"><use href="#tg"/></svg>Обсудить проект</a>
+        <a class="btn btn-ghost" href="#work">Смотреть работы</a>
+      </div>
+    </div>
+  </div>
+  <div class="belts" aria-hidden="true">
+    <div class="belt"><div class="track" id="t1"></div></div>
+    <div class="belt rev"><div class="track" id="t2"></div></div>
+  </div>
+</section>
+
+<section class="clients" aria-label="Клиенты">
+  <div class="wrap"><p>Среди моих клиентов</p></div>
+  <div class="cl-belt"><div class="cl-track"><img src="img/logos/kompanion.png" alt="Банк Компаньон" width="134" height="24" loading="lazy"><img src="img/logos/demirbank.png" alt="Демир Банк" width="142" height="38" loading="lazy"><img src="img/logos/midea.png" alt="Midea Building Tech" width="172" height="36" loading="lazy"><img src="img/logos/redpetroleum.png" alt="Red Petroleum" width="62" height="40" loading="lazy"><img src="img/logos/urpaq.png" alt="URPAQ" width="83" height="35" loading="lazy"><img src="img/logos/skypark.png" alt="Skypark Baitik" width="97" height="29" loading="lazy"><img src="img/logos/corpus.png" alt="Corpus" width="82" height="61" loading="lazy"><img src="img/logos/standart.png" alt="Стандарт Строй" width="127" height="34" loading="lazy"><img src="img/logos/sierra.png" alt="Sierra" width="72" height="46" loading="lazy"><img src="img/logos/alkoni.png" alt="Алькони" width="85" height="28" loading="lazy"><img src="img/logos/kokomeren.png" alt="Көкөмерен" width="139" height="24" loading="lazy"><img src="img/logos/azur.png" alt="Азур Мебель" width="110" height="64" loading="lazy"><img src="img/logos/alaiku.png" alt="Алайку" width="89" height="43" loading="lazy"></div></div>
+  <div class="cl-belt rev"><div class="cl-track"><img src="img/logos/asman.png" alt="Asman Airlines" width="110" height="41" loading="lazy"><img src="img/logos/gosstrakh.png" alt="Госстрах" width="185" height="24" loading="lazy"><img src="img/logos/eldik.png" alt="Eldik Leasing" width="100" height="29" loading="lazy"><img src="img/logos/magicworld.png" alt="Magic World" width="60" height="46" loading="lazy"><img src="img/logos/bella.png" alt="Bella" width="60" height="37" loading="lazy"><img src="img/logos/trodat.png" alt="Trodat" width="96" height="24" loading="lazy"><img src="img/logos/prima.png" alt="Прима" width="103" height="26" loading="lazy"><img src="img/logos/flo.png" alt="Flo" width="90" height="55" loading="lazy"><img src="img/logos/yamayam.png" alt="Yama Yam" width="115" height="34" loading="lazy"><img src="img/logos/cheber.png" alt="Чебер" width="101" height="34" loading="lazy"><img src="img/logos/umut.png" alt="ОБФ «Үмүт Шамы»" width="72" height="64" loading="lazy"><img src="img/logos/letsgo.png" alt="Let's Go" width="64" height="46" loading="lazy"><img src="img/logos/sela.png" alt="Sela" width="92" height="24" loading="lazy"></div></div>
+  <div class="wrap"><p class="cl-note">Здесь только часть брендов: кроме них, более 100 проектов для малого и среднего бизнеса. С частью компаний работал напрямую, с частью — на субподряде через агентства и студии.</p></div>
+</section>
+
+<section class="block" id="work">
+  <div class="wrap">
+    <div class="head">
+      <h2>Работы</h2>
+      <p>Моушн, графика и монтаж для банков, авиакомпании, девелоперов и артистов. Нажмите, чтобы смотреть крупно и со звуком.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Тип работ" id="tabs"></div>
+    <div id="panel-graphic" role="tabpanel" aria-label="Графика" hidden>
+      <div class="grid" id="g-graphic"></div>
+      <div class="more"><button class="btn btn-ghost" type="button" id="moreBtn">Показать ещё</button></div>
+    </div>
+    <div id="panel-motion" role="tabpanel" aria-label="Моушн"><div class="grid vid" id="g-motion"></div></div>
+    <div id="panel-edit" role="tabpanel" aria-label="Монтаж" hidden><div class="edits" id="g-edit"></div></div>
+  </div>
+</section>
+<section class="block" id="services" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <h2>Что я делаю</h2>
+      <p>Четыре направления, которые складываются в одну систему: фирменный стиль, соцсети, печать и движение.</p>
+    </div>
+    <div class="dirs">
+      <article class="dir">
+        <h3>Дизайн социальных сетей</h3>
+        <p>Полная упаковка вашей бизнес-страницы с уникальным дизайном под ваши запросы.</p>
+        <ul class="chips"><li>Аватарка</li><li>Обложки актуальных</li><li>Айдентика соцсетей</li><li>Первые 12 постов</li><li>Карусели и сторис</li><li>Креативы для таргета</li></ul>
+        <a class="dir-link tg" href="https://t.me/">Обсудить задачу<svg aria-hidden="true"><use href="#right"/></svg></a>
+      </article>
+      <article class="dir">
+        <h3>Разработка айдентики</h3>
+        <p>Уникальный фирменный стиль под задачи вашего бизнеса.</p>
+        <ul class="chips"><li>Логотип</li><li>Шрифты</li><li>Фирменные паттерны</li><li>Цвета</li><li>Рекламные носители</li></ul>
+        <a class="dir-link tg" href="https://t.me/">Обсудить задачу<svg aria-hidden="true"><use href="#right"/></svg></a>
+      </article>
+      <article class="dir">
+        <h3>Дизайн под печать</h3>
+        <p>Любые печатные носители: от баннеров и афиш до фирменной документации, упаковки и наружной рекламы.</p>
+        <ul class="chips"><li>Баннеры и билборды</li><li>Афиши и постеры</li><li>Roll-up и press wall</li><li>Вывески и навигация</li><li>Меню и буклеты</li><li>Визитки и бланки</li><li>Упаковка и этикетки</li><li>Брендирование авто и витрин</li></ul>
+        <a class="dir-link tg" href="https://t.me/">Обсудить задачу<svg aria-hidden="true"><use href="#right"/></svg></a>
+      </article>
+      <article class="dir">
+        <h3>Моушн и монтаж</h3>
+        <p>Оживляю дизайн: анимация удерживает внимание в ленте и рекламе дольше статики.</p>
+        <ul class="chips"><li>Анимированные посты</li><li>Reels и Shorts</li><li>Моушн-креативы</li><li>Инфографика в движении</li><li>Монтаж роликов</li></ul>
+        <a class="dir-link tg" href="https://t.me/">Обсудить задачу<svg aria-hidden="true"><use href="#right"/></svg></a>
+      </article>
+    </div>
+  </div>
+</section>
+<section class="block" id="about" style="padding-top:0">
+  <div class="wrap about">
+    <div class="photo">
+      <img class="me" src="img/edil.webp" alt="Эдиль, дизайнер EdilGraphic" width="960" height="1200">
+    </div>
+    <div class="about-text">
+      <h2>Эдиль, графический и моушн-дизайнер</h2>
+      <p class="lead">Третий год создаю визуал для бизнеса: соцсети, айдентику, печатные носители, анимацию и монтаж. Работаю в Бишкеке и удалённо. Беру задачу целиком, поэтому логотип, посты, баннер и ролик выглядят как одна система.</p>
+      <div class="facts">
+        <div><b>3-й год</b><span>в графическом дизайне</span></div>
+        <div><b>100+</b><span>проектов, из них 41 бренд</span></div>
+        <div><b>4</b><span>направления: соцсети, айдентика, печать, моушн</span></div>
+      </div>
+      <div class="tools"><h4>Инструменты</h4><div class="chips"><span>Photoshop</span><span>Illustrator</span><span>After Effects</span><span>DaVinci Resolve</span><span>Figma</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="process" style="padding-top:0">
+  <div class="wrap">
+    <div class="head"><h2>Как я работаю</h2><p>Прозрачный процесс без сюрпризов: вы видите стиль до того, как я начинаю делать весь объём.</p></div>
+    <ol class="steps">
+      <li><h3>Бриф</h3><p>Вы рассказываете о задаче, я задаю уточняющие вопросы.</p></li>
+      <li><h3>Концепция</h3><p>Показываю 1–3 варианта стиля на выбор.</p></li>
+      <li><h3>Производство</h3><p>Делаю посты, карусели и анимацию в выбранном стиле.</p></li>
+      <li><h3>Правки и сдача</h3><p>Вношу правки и передаю файлы во всех нужных форматах.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="contact" aria-label="Связаться">
+  <div class="chev" aria-hidden="true"><i class="burst"></i></div>
+  <div class="in">
+    <h2>Расскажите о вашей задаче</h2>
+    <p>Опишите проект в паре предложений, и я предложу решение и сроки.</p>
+    <div class="cta"><a class="btn tg" href="https://t.me/"><svg aria-hidden="true"><use href="#tg"/></svg>Написать в Telegram</a><span class="handle">@deltagamma23</span></div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><img src="img/logo.png" alt="EdilGraphic" class="flogo"><span>Бишкек, Кыргызстан</span><a class="tg" href="https://t.me/">Telegram @deltagamma23</a></div></footer>
+
+<dialog id="lb" aria-label="Просмотр работы">
+  <div class="lb">
+    <p class="cnt" id="lbc"></p>
+    <div id="lbs" style="display:contents"></div>
+    <button class="arrow x" type="button" aria-label="Закрыть"><svg><use href="#close"/></svg></button>
+    <button class="arrow pv" type="button" aria-label="Предыдущая"><svg><use href="#left"/></svg></button>
+    <button class="arrow nx" type="button" aria-label="Следующая"><svg><use href="#right"/></svg></button>
+  </div>
+</dialog>
+
+<script>
+{
+  const TG = 'deltagamma23';
+  document.querySelectorAll('.tg').forEach(a => a.href = 'https://t.me/' + TG);
+
+  // ГРАФИКА: порядок = порядок на сайте, самые сильные работы первыми
+  const graphic = [["bank-1", "Банк Компаньон", 0], ["chisty-2", "Чистый Драйв", 0], ["asman-1", "Asman Airlines", 0], ["misc-2", "EdilGraphic, промо", 0], ["level-1", "Level Travel", 0], ["misc-1", "Karins, Black Friday", 0], ["chisty-3", "Чистый Драйв", 0], ["reddrive-1", "RedDrive", 1], ["misc-9", "Medusa, афиша", 0], ["bank-6", "Банк Компаньон", 0], ["trodat-6", "Trodat", 0], ["eldik-6", "Eldik Leasing", 0], ["chisty-5", "Чистый Драйв", 0], ["asman-3", "Asman Airlines", 0], ["misc-3", "Bold Brands Education, акция", 0], ["bank-2", "Банк Компаньон", 0], ["level-2", "Level Travel", 0], ["eldik-5", "Eldik Leasing", 0], ["misc-6", "Ош Бизнес Форум", 0], ["chisty-1", "Чистый Драйв", 0], ["reddrive-2", "RedDrive", 1], ["misc-11", "EdilGraphic, фирменный стиль", 0], ["trodat-2", "Trodat", 0], ["bank-3", "Банк Компаньон", 0], ["midea-1", "Midea Building Tech", 0], ["eldik-4", "Eldik Leasing", 0], ["asman-2", "Asman Airlines", 0], ["misc-5", "Премиальная недвижимость", 0], ["chisty-4", "Чистый Драйв", 0], ["level-3", "Level Travel", 0], ["misc-4", "Новогодняя акция", 0], ["bank-4", "Банк Компаньон", 0], ["trodat-1", "Trodat", 0], ["chisty-6", "Чистый Драйв", 0], ["reddrive-3", "RedDrive", 1], ["misc-7", "Анонс мероприятия", 0], ["eldik-1", "Eldik Leasing", 0], ["midea-3", "Midea Building Tech", 0], ["trodat-5", "Trodat", 0], ["bank-5", "Банк Компаньон", 0], ["misc-10", "Чебер, вакансия", 0], ["misc-8", "Бесплатная доставка", 0], ["reddrive-4", "RedDrive", 1], ["reddrive-5", "RedDrive", 1], ["reddrive-6", "RedDrive", 1], ["reddrive-7", "RedDrive", 1], ["reddrive-8", "RedDrive", 1], ["trodat-3", "Trodat", 0], ["trodat-4", "Trodat", 0], ["trodat-7", "Trodat", 0], ["trodat-8", "Trodat", 0], ["trodat-9", "Trodat", 0], ["eldik-2", "Eldik Leasing", 0], ["eldik-3", "Eldik Leasing", 0], ["midea-2", "Midea Building Tech", 0], ["glovo-1", "Glovo Кыргызстан", 1]].map(([f, name, c]) => ({src:`img/${f}.jpg`, name, concept: !!c}));
+
+  // МОУШН: файл в папке video/, обложка .jpg с тем же именем
+  const motion = [
+    ['korzh','Макс Корж, анонс концерта'],
+    ['urpaq','URPAQ, обмен авто на квартиру'],
+    ['boldbrands','Bold Brands, «Делегируй маркетинг»'],
+    ['students','Посвящение в студенты, афиша'],
+    ['chisty','Чистый Драйв, автохимия'],
+    ['mountains','Моушн-сцена: горы Кыргызстана'],
+    ['eldik','Eldik Leasing, акция на авто'],
+    ['concert','Афиша концерта'],
+    ['kanye','Kanye West, анимированный постер']
+  ].map(([f, name]) => ({src:`video/${f}.mp4`, poster:`video/${f}.jpg`, name}));
+
+  // МОНТАЖ
+  const edits = [
+    {src:'video/edit-leto.mp4', poster:'video/edit-leto.jpg', name:'LETO.STUDIO, ролик о продакшене', note:'Монтаж говорящей головы, моушн-графика и плашки в кадре, которые показывают этапы работы студии.'},
+    {src:'video/edit-main.mp4', poster:'video/edit-main.jpg', name:'Вертикальный ролик для соцсетей', note:'Монтаж, ритм под музыку, титры и графика. Формат Reels и Shorts.'}
+  ];
+
+  const tabs = [['motion','Моушн',motion.length],['graphic','Графика',graphic.length],['edit','Монтаж',edits.length]].filter(t => t[2] > 0);
+  const tabBox = document.getElementById('tabs');
+  if (tabs.length < 2) tabBox.hidden = true;
+  tabBox.innerHTML = tabs.map(([id, t, n], i) => `<button role="tab" type="button" id="tab-${id}" aria-controls="panel-${id}" aria-selected="${i === 0}">${t}<i>${n}</i></button>`).join('');
+  const select = id => {
+    tabBox.querySelectorAll('[role=tab]').forEach(b => b.setAttribute('aria-selected', b.id === 'tab-' + id));
+    ['graphic','motion','edit'].forEach(p => document.getElementById('panel-' + p).hidden = p !== id);
+    if (window.__reveal) window.__reveal(document.querySelectorAll(`#panel-${id} .grid > button, #panel-${id} figure`));
+  };
+  tabBox.addEventListener('click', e => { const b = e.target.closest('[role=tab]'); if (b) select(b.id.slice(4)); });
+
+  // сетка графики с «Показать ещё»
+  const gBox = document.getElementById('g-graphic'), more = document.getElementById('moreBtn');
+  let shown = 0;
+  const STEP = 12;
+  const tile = (it, i) => `<button type="button" data-k="graphic" data-i="${i}" aria-label="Открыть: ${it.name}"><img src="${it.src}" alt="${it.name}" loading="lazy">${it.concept ? '<span class="cpt">Концепт</span>' : ''}<span class="lbl">${it.name}</span></button>`;
+  const showMore = () => {
+    const before = gBox.children.length;
+    gBox.insertAdjacentHTML('beforeend', graphic.slice(shown, shown + STEP).map((it, j) => tile(it, shown + j)).join(''));
+    if (before && window.__reveal) window.__reveal([...gBox.children].slice(before));
+    shown = Math.min(shown + STEP, graphic.length);
+    more.parentElement.hidden = shown >= graphic.length;
+  };
+  more.addEventListener('click', showMore); showMore();
+
+  // сетка моушена: ролики играют без звука, когда видны на экране
+  document.getElementById('g-motion').innerHTML = motion.map((it, i) =>
+    `<button type="button" data-k="motion" data-i="${i}" aria-label="Открыть со звуком: ${it.name}"><video src="${it.src}" poster="${it.poster}" muted loop playsinline preload="none"></video><span class="play"><svg><use href="#play"/></svg></span><span class="lbl">${it.name}</span></button>`).join('');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vio = new IntersectionObserver(es => es.forEach(e => { const v = e.target; if (e.isIntersecting && !reduce) v.play().catch(() => {}); else v.pause(); }), {threshold:.3});
+  document.querySelectorAll('#g-motion video').forEach(v => vio.observe(v));
+
+  // монтаж: обычный плеер
+  document.getElementById('g-edit').innerHTML = edits.map(it =>
+    `<figure><video src="${it.src}" poster="${it.poster}" controls playsinline preload="none"></video><figcaption><b>${it.name}</b><span>${it.note}</span></figcaption></figure>`).join('');
+
+  // строка клиентов: дублируем для бесшовной прокрутки
+  document.querySelectorAll('.cl-track').forEach(cl => [...cl.children].forEach(e => { const c = e.cloneNode(true); c.setAttribute('aria-hidden','true'); c.alt = ''; cl.appendChild(c); }));
+
+  // ленты в первом экране
+  const row1 = ['bank-1','asman-2','trodat-6','chisty-2','level-1','reddrive-1','misc-2','eldik-5','bank-4','chisty-5','misc-3','trodat-7'];
+  const row2 = ['misc-1','reddrive-2','bank-2','chisty-3','asman-1','trodat-2','level-2','eldik-4','misc-6','bank-6','chisty-1','misc-8'];
+  const fill = (id, arr) => { const h = arr.map(f => `<img src="img/${f}.jpg" alt="">`).join(''); document.getElementById(id).innerHTML = h + h; };
+  fill('t1', row1); fill('t2', row2);
+
+  // просмотр крупно
+  const lists = {graphic, motion};
+  const dlg = document.getElementById('lb'), stage = document.getElementById('lbs'), cnt = document.getElementById('lbc');
+  let list = [], cur = 0;
+  const show = () => {
+    const it = list[cur];
+    stage.innerHTML = it.src.endsWith('.mp4')
+      ? `<video src="${it.src}" poster="${it.poster}" autoplay loop playsinline controls></video>`
+      : `<img src="${it.src}" alt="${it.name}">`;
+    cnt.textContent = `${it.name}${it.concept ? ' (концепт)' : ''}, ${cur + 1} из ${list.length}`;
+  };
+  const step = d => { cur = (cur + d + list.length) % list.length; show(); };
+  document.getElementById('work').addEventListener('click', e => {
+    const b = e.target.closest('button[data-k]'); if (!b) return;
+    list = lists[b.dataset.k]; cur = +b.dataset.i; show();
+    dlg.showModal ? dlg.showModal() : dlg.setAttribute('open', '');
+  });
+  dlg.addEventListener('close', () => stage.innerHTML = '');
+  dlg.querySelector('.x').addEventListener('click', () => dlg.close());
+  dlg.querySelector('.pv').addEventListener('click', () => step(-1));
+  dlg.querySelector('.nx').addEventListener('click', () => step(1));
+  dlg.addEventListener('click', e => { if (e.target.classList.contains('lb') || e.target.id === 'lbs') dlg.close(); });
+  dlg.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') step(-1); if (e.key === 'ArrowRight') step(1); });
+  let sx = 0;
+  dlg.addEventListener('touchstart', e => sx = e.touches[0].clientX, {passive:true});
+  dlg.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1); });
+}
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+{
+  // Анимации на GSAP + ScrollTrigger. Если библиотека не загрузилась или в системе отключена анимация, сайт просто показывается без неё.
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.registerPlugin(ScrollTrigger);
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const ease = 'power3.out';
+
+      // 1. Первый экран: заголовок поднимается по словам из-под маски
+      const h1 = document.querySelector('.hero h1');
+      const text = h1.textContent.trim();
+      h1.setAttribute('aria-label', text);
+      h1.innerHTML = text.split(/\s+/).map(w => `<span class="w" aria-hidden="true"><span>${w}</span></span>`).join(' ');
+      gsap.timeline({defaults:{ease}})
+        .from('header .bar', {y:-24, autoAlpha:0, duration:.8}, 0)
+        .from('.hero h1 .w > span', {yPercent:110, duration:1.05, stagger:.07}, .1)
+        .from('.hero .lead', {y:24, autoAlpha:0, duration:.8}, '-=.65')
+        .from('.hero .cta .btn', {y:18, autoAlpha:0, duration:.6, stagger:.08}, '-=.55')
+        .from('.belts', {y:80, autoAlpha:0, duration:1.3}, '-=.7');
+
+      // 2. Ленты работ слегка расходятся при прокрутке
+      const st = {trigger:'.hero', start:'top top', end:'bottom top', scrub:true};
+      gsap.to('.belt:not(.rev)', {xPercent:-3, ease:'none', scrollTrigger:st});
+      gsap.to('.belt.rev', {xPercent:3, ease:'none', scrollTrigger:{...st}});
+
+      // 3. Заголовки разделов
+      gsap.utils.toArray('.head h2, .about-text h2, .contact h2').forEach(el =>
+        gsap.from(el, {y:56, autoAlpha:0, duration:1.1, ease, scrollTrigger:{trigger:el, start:'top 88%', once:true}}));
+      gsap.utils.toArray('.head p').forEach(el =>
+        gsap.from(el, {y:24, autoAlpha:0, duration:.9, delay:.15, ease, scrollTrigger:{trigger:el, start:'top 90%', once:true}}));
+
+      // 4. Карточки и блоки появляются волной
+      const reveal = sel => {
+        const els = gsap.utils.toArray(sel);
+        if (!els.length) return;
+        gsap.set(els, {y:44, autoAlpha:0});
+        ScrollTrigger.batch(els, {start:'top 90%', once:true,
+          onEnter: b => gsap.to(b, {y:0, autoAlpha:1, duration:.9, stagger:.09, ease, overwrite:true})});
+      };
+      reveal('.clients .wrap, .cl-belt');
+      reveal('.tabs');
+      reveal('#panel-motion .grid > button');
+      reveal('.dir');
+      reveal('.about-text .lead, .facts > div, .tools');
+      reveal('.steps li');
+
+      // 5. Фото: раскрывается из центра и мягко движется при прокрутке
+      gsap.from('.photo', {clipPath:'inset(14% 14% 14% 14% round 28px)', duration:1.4, ease:'expo.out',
+        scrollTrigger:{trigger:'.photo', start:'top 85%', once:true}});
+      gsap.fromTo('.photo .me', {yPercent:5, scale:1.08}, {yPercent:-3, scale:1, ease:'none',
+        scrollTrigger:{trigger:'.photo', start:'top bottom', end:'bottom top', scrub:true}});
+
+      // 6. Цифры в «Обо мне» считаются вверх
+      document.querySelectorAll('.facts b').forEach(b => {
+        const m = b.textContent.match(/^(\D*)(\d+)(.*)$/);
+        if (!m) return;
+        const o = {v:0}, n = +m[2];
+        gsap.to(o, {v:n, duration:1.6, ease:'power2.out', scrollTrigger:{trigger:b, start:'top 90%', once:true},
+          onUpdate:() => b.textContent = m[1] + Math.round(o.v) + m[3]});
+      });
+
+      // 7. Финальная плашка
+      gsap.from('.contact', {scale:.94, autoAlpha:0, duration:1.1, ease, scrollTrigger:{trigger:'.contact', start:'top 88%', once:true}});
+      gsap.from('.contact .burst', {rotate:-25, xPercent:20, duration:1.6, ease:'expo.out', scrollTrigger:{trigger:'.contact', start:'top 80%', once:true}});
+
+      // 8. Для вкладок и «Показать ещё»: новые работы появляются волной
+      window.__reveal = els => { if (els.length) gsap.fromTo(els, {y:30, autoAlpha:0}, {y:0, autoAlpha:1, duration:.7, stagger:.05, ease, overwrite:true}); ScrollTrigger.refresh(); };
+      return () => { window.__reveal = null; };
+    });
+  }
+}
+</script>
+</body>
+</html>
